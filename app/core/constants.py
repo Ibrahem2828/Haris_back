@@ -1,0 +1,25 @@
+ROLE_NETWORK_ADMIN = "network_admin"
+ROLE_SECURITY_ENGINEER = "security_engineer"
+ROLE_STUDENT = "student"
+
+ALERT_STATUS_NEW = "New"
+ALERT_STATUS_REVIEWED = "Reviewed"
+ALERT_STATUS_RESOLVED = "Resolved"
+ALERT_STATUS_FALSE_POSITIVE = "False Positive"
+
+RESPONSE_PENDING = "Pending"
+RESPONSE_APPROVED = "Approved"
+RESPONSE_REJECTED = "Rejected"
+
+ATTACK_SSH_BRUTE_FORCE = "ssh_bruteforce"
+ATTACK_PORT_SCAN = "port_scan"
+ATTACK_ICMP_FLOOD = "icmp_flood"
+ATTACK_VLAN_VIOLATION = "vlan_violation"
+ATTACK_ARP_SPOOFING = "arp_spoofing"
+
+SEVERITY_LOW = "Low"
+SEVERITY_MEDIUM = "Medium"
+SEVERITY_HIGH = "High"
+SEVERITY_CRITICAL = "Critical"
+
+BLOCKED_VLAN_PAIRS = {(20, 30), (30, 20)}

@@ -1,0 +1,24 @@
+[
+  {
+    "source_ip": "192.168.20.15",
+    "destination_ip": "192.168.30.10",
+    "protocol": "SSH",
+    "port": 22,
+    "event_type": "ssh_login",
+    "status": "failed_login",
+    "source_vlan": 20,
+    "destination_vlan": 30,
+    "raw_message": "Failed SSH login sample"
+  },
+  {
+    "source_ip": "192.168.10.20",
+    "destination_ip": "192.168.30.10",
+    "protocol": "TCP",
+    "port": 443,
+    "event_type": "normal_traffic",
+    "status": "allowed",
+    "source_vlan": 10,
+    "destination_vlan": 30,
+    "raw_message": "Normal HTTPS traffic sample"
+  }
+]

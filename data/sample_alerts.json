@@ -1,0 +1,9 @@
+[
+  {
+    "attack_type": "port_scan",
+    "severity": "High",
+    "source_ip": "192.168.20.15",
+    "destination_ip": "192.168.30.10",
+    "description": "Sample alert generated for documentation."
+  }
+]
