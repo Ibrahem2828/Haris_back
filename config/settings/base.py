@@ -3,6 +3,7 @@ from datetime import timedelta
 from pathlib import Path
 
 import dj_database_url
+from corsheaders.defaults import default_headers, default_methods
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -24,7 +25,8 @@ DJANGO_ENV = os.getenv("DJANGO_ENV", "local").lower()
 IS_PRODUCTION = DJANGO_ENV == "production"
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", os.getenv("SECRET_KEY", "dev-only-change-me"))
 DEBUG = env_bool("DJANGO_DEBUG", env_bool("DEBUG", False))
-ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1,0.0.0.0"))
+DEFAULT_ALLOWED_HOSTS = "" if IS_PRODUCTION else "localhost,127.0.0.1,0.0.0.0"
+ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", os.getenv("ALLOWED_HOSTS", DEFAULT_ALLOWED_HOSTS))
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -172,9 +174,55 @@ SPECTACULAR_SETTINGS = {
     ],
 }
 
-CORS_ALLOWED_ORIGINS = env_list("CORS_ALLOWED_ORIGINS")
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "apps.common": {
+            "handlers": ["console"],
+            "level": os.getenv("DJANGO_STARTUP_LOG_LEVEL", "INFO"),
+            "propagate": False,
+        },
+    },
+}
+
+LOCAL_FRONTEND_ORIGINS = (
+    "http://localhost:3000,"
+    "http://127.0.0.1:3000,"
+    "http://localhost:8000,"
+    "http://127.0.0.1:8000"
+)
+CORS_ALLOWED_ORIGINS = env_list("CORS_ALLOWED_ORIGINS", "" if IS_PRODUCTION else LOCAL_FRONTEND_ORIGINS)
 CORS_ALLOW_ALL_ORIGINS = env_bool("CORS_ALLOW_ALL_ORIGINS", DEBUG and not CORS_ALLOWED_ORIGINS)
-CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS")
+CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS", "" if IS_PRODUCTION else LOCAL_FRONTEND_ORIGINS)
+CORS_ALLOW_HEADERS = list(
+    dict.fromkeys(
+        [
+            *default_headers,
+            "content-type",
+            "authorization",
+            "x-csrftoken",
+        ]
+    )
+)
+CORS_ALLOW_METHODS = list(
+    dict.fromkeys(
+        [
+            *default_methods,
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+            "OPTIONS",
+        ]
+    )
+)
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 USE_X_FORWARDED_HOST = True

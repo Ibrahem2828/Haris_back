@@ -69,5 +69,6 @@ urlpatterns = [
     path("api/arp/", include("apps.arp.urls")),
     path("api/reports/", include("apps.reports.urls")),
     path("api/audit/", include("apps.audit.urls")),
+    path("health/", HealthView.as_view(), name="root-health"),
     path("api/health/", HealthView.as_view(), name="health"),
 ]
